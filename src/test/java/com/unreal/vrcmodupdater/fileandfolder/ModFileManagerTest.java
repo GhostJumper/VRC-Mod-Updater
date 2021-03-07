@@ -16,7 +16,7 @@ class ModFileManagerTest {
     public void getInstalledMods_modsPresent() {
 
         //Arrange
-        File modFolder = new File("src/test/resources/example_mods");
+        File modFolder = new File("src/test/resources/fileandfolder/ModFileManager/mods");
         String[] expected = {"AvatarStatsShowAuthor.dll", "ComfyVRMenu.dll", "DownloadFix.dll", "emmVRCLoader.dll", "JoinNotifier.dll", "RememberMe.dll", "UserInfoExtentions.dll"};
 
         //Act
@@ -24,14 +24,14 @@ class ModFileManagerTest {
 
         //Assert
         assertThat(result.isPresent()).isTrue();
-        assertThat(result.get().toArray()).containsExactly(expected);
+        assertThat(result.get().toArray()).containsExactlyInAnyOrder(expected);
     }
 
     @Test
     public void getInstalledMods_NoModsPresent() {
 
         //Arrange
-        File modFolder = new File("src/test/resources/example_mods_empty");
+        File modFolder = new File("src/test/resources/fileandfolder/ModFileManager/mods_empty");
 
         //Act
         Optional<ArrayList<String>> result = modFileManager.getAllModNames(modFolder);

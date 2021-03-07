@@ -13,8 +13,8 @@ class WhereAmITest {
 
 
     private final WhereAmI whereAmI = new WhereAmI();
-    private final String validPath = "D:\\Projects\\Coding\\Java\\vrc-mod-updater\\src\\main\\VRChat\\Mods";
-    private final String invalidPath = "D:\\Projects\\Coding\\Java\\vrc-mod-updater\\src\\main\\VRChat\\Plugins";
+    private final String validPath = "src\\test\\resources\\fileandfolder\\WhereAmI\\VRChat\\Mods";
+    private final String invalidPath = "src\\test\\resources\\fileandfolder\\WhereAmI\\VRChat\\Plugins";
 
 
     @Test
@@ -78,7 +78,7 @@ class WhereAmITest {
 
         //Assert
         assertThat(result).isNotNull();
-        assertThat(result.getAbsolutePath()).isEqualTo(this.validPath);
+        assertThat(result.getAbsolutePath()).endsWith(this.validPath);
     }
 
     @Test
