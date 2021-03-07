@@ -17,7 +17,7 @@ public class KnownMods {
         return true;
     }
 
-    public Optional<String> getDownloadRepoFromName(String modName) throws ClassNotFoundException, SQLException, FileNotFoundException {
+    public Optional<String> getDownloadUrlFromName(String modName) throws ClassNotFoundException, SQLException, FileNotFoundException {
 
         if (!isDBValid()) throw new FileNotFoundException(getDBPath() + " is not a valid DB path");
 

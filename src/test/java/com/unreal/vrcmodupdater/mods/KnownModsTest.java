@@ -46,7 +46,7 @@ class KnownModsTest {
     }
 
     @Test
-    public void getDownloadRepoFromName_validModName() {
+    public void getDownloadUrlFromName_validModName() {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
@@ -59,7 +59,7 @@ class KnownModsTest {
 
         //Act
         try {
-            result = knownModsSpy.getDownloadRepoFromName(modName);
+            result = knownModsSpy.getDownloadUrlFromName(modName);
         } catch (Exception e) {
             exception = e;
         }
@@ -72,7 +72,7 @@ class KnownModsTest {
     }
 
     @Test
-    public void getDownloadRepoFromName_invalidModName() {
+    public void getDownloadUrlFromName_invalidModName() {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
@@ -84,7 +84,7 @@ class KnownModsTest {
         //Act
         Optional<String> result = null;
         try {
-            result = knownModsSpy.getDownloadRepoFromName(modName);
+            result = knownModsSpy.getDownloadUrlFromName(modName);
         } catch (Exception e) {
             exception = e;
         }
@@ -96,7 +96,7 @@ class KnownModsTest {
     }
 
     @Test
-    public void getDownloadRepoFromName_invalidDBPath() {
+    public void getDownloadUrlFromName_invalidDBPath() {
 
         //Arrange
         String invalidDBPath = "src\\test\\resources\\mods\\mods_invalid.sqlite";
@@ -106,7 +106,7 @@ class KnownModsTest {
 
         //Act
         try {
-            knownModsSpy.getDownloadRepoFromName("");
+            knownModsSpy.getDownloadUrlFromName("");
         } catch (Exception e) {
             exception = e;
         }
