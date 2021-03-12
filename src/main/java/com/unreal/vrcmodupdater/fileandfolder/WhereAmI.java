@@ -15,7 +15,7 @@ public class WhereAmI {
 
     String getValidExecutionPath() throws WrongFolderException {
         String path = getPath();
-        Pattern pattern = Pattern.compile("(.*)(\\\\VRChat\\\\Mods)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(.*)(/VRChat/Mods)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(path);
         if (matcher.find()) return path;
         throw new WrongFolderException(path + " is not a valid path");
