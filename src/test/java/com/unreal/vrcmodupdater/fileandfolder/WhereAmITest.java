@@ -13,8 +13,8 @@ class WhereAmITest {
 
 
     private final WhereAmI whereAmI = new WhereAmI();
-    private final String validPath = "src\\test\\resources\\fileandfolder\\WhereAmI\\VRChat\\Mods";
-    private final String invalidPath = "src\\test\\resources\\fileandfolder\\WhereAmI\\VRChat\\Plugins";
+    private final String validPath = "src/test/resources/fileandfolder/WhereAmI/VRChat/Mods";
+    private final String invalidPath = "src/test/resources/fileandfolder/WhereAmI/VRChat/Plugins";
 
 
     @Test
@@ -35,7 +35,7 @@ class WhereAmITest {
         }
 
         // Assert
-        assertThat(result).isEqualTo(this.validPath);
+        assertThat(result).isEqualTo(this.validPath.replace("\\", "/"));
     }
 
     @Test
@@ -53,7 +53,7 @@ class WhereAmITest {
             result = whereAmISpy.getValidExecutionPath();
         } catch (WrongFolderException e) {
             assertThat(e).isInstanceOf(WrongFolderException.class);
-            assertThat(e).hasMessage(this.invalidPath + " is not a valid path");
+            assertThat(e).hasMessage(this.invalidPath.replace("\\", "/") + " is not a valid path");
         }
 
         // Assert
@@ -78,7 +78,7 @@ class WhereAmITest {
 
         //Assert
         assertThat(result).isNotNull();
-        assertThat(result.getAbsolutePath()).endsWith(this.validPath);
+        assertThat(result.getAbsolutePath().replace("\\", "/")).endsWith(this.validPath);
     }
 
     @Test
@@ -95,7 +95,7 @@ class WhereAmITest {
             result = whereAmISpy.getValidExecutionFolder();
         } catch (WrongFolderException e) {
             assertThat(e).isInstanceOf(WrongFolderException.class);
-            assertThat(e).hasMessage(this.invalidPath + " is not a valid path");
+            assertThat(e).hasMessage(this.invalidPath.replace("\\", "/") + " is not a valid path");
         }
 
         //Assert
