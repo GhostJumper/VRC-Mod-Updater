@@ -1,6 +1,9 @@
 package com.unreal.vrcmodupdater.github;
 
 import org.junit.jupiter.api.Test;
+import org.kohsuke.github.GHAsset;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -87,6 +90,62 @@ class NewReleaseTest {
         //Assert
         assertThat(result).isFalse();
 
+    }
+
+    @Test
+    public void downloadNewestRelease_valid1() {
+        //Arrange
+        String modName = "FavCat-merged.dll";
+        String repoName = "knah/VRCMods";
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getNewestReleaseByName(modName, repoName);
+
+        //Assert
+        assertThat(ghAsset).isPresent();
+        assertThat(ghAsset.get()).isNotNull();
+        assertThat(ghAsset.get().getName()).isEqualTo(modName);
+    }
+
+    @Test
+    public void downloadNewestRelease_valid2() {
+        //Arrange
+        String modName = "AvatarStatsShowAuthor.dll";
+        String repoName = "HerpDerpinstine/AvatarStatsShowAuthor";
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getNewestReleaseByName(modName, repoName);
+
+        //Assert
+        assertThat(ghAsset).isPresent();
+        assertThat(ghAsset.get()).isNotNull();
+        assertThat(ghAsset.get().getName()).isEqualTo(modName);
+    }
+
+    @Test
+    public void downloadNewestRelease_invalid1() {
+        //Arrange
+        String modName = "AvatarStatsShowAuthor.dll";
+        String repoName = "GhostJumper/VRC-Mod-Updater";
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getNewestReleaseByName(modName, repoName);
+
+        //Assert
+        assertThat(ghAsset).isNotPresent();
+    }
+
+    @Test
+    public void downloadNewestRelease_invalid2() {
+        //Arrange
+        String modName = "AvatarStatsShowAuthor.dll";
+        String repoName = "GhostJumper/Invalid-Repo-Name";
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getNewestReleaseByName(modName, repoName);
+
+        //Assert
+        assertThat(ghAsset).isNotPresent();
     }
 
 }

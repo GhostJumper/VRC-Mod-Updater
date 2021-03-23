@@ -1,8 +1,13 @@
 package com.unreal.vrcmodupdater.github;
 
+import org.kohsuke.github.GHAsset;
+import org.kohsuke.github.GHRelease;
+import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import java.io.IOException;
+import java.util.Optional;
+
 
 public class NewRelease {
 
@@ -36,6 +41,30 @@ public class NewRelease {
             return false;
         }
         return true;
+    }
+
+
+    public Optional<GHAsset> getNewestReleaseByName(String modName, String repoName) {
+
+        try {
+            GitHub gitHub = GitHub.connect();
+            GHRepository repository = gitHub.getRepository(repoName);
+
+            for (GHRelease ghRelease : repository.listReleases()) {
+                for (GHAsset ghAsset : ghRelease.listAssets()) {
+                    if (ghAsset.getName().equals(modName)) {
+                        System.out.println("Found " + modName + " in " + repository.getFullName() + " released on " + ghRelease.getCreatedAt());
+                        return Optional.of(ghAsset);
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("Couldn't find: " + modName);
+        return Optional.empty();
     }
 
 }
