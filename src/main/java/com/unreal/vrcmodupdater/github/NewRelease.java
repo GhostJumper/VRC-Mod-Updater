@@ -6,6 +6,7 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 
@@ -65,6 +66,36 @@ public class NewRelease {
 
         System.out.println("Couldn't find: " + modName);
         return Optional.empty();
+    }
+
+    public ArrayList<GHAsset> getNewestReleasesByNames(ArrayList<String> names, String repoName) {
+        ArrayList<String> remainingNames = new ArrayList<>(names);
+        ArrayList<GHAsset> results = new ArrayList<>();
+
+        try {
+            GitHub gitHub = GitHub.connect();
+            GHRepository repository = gitHub.getRepository(repoName);
+
+            for (GHRelease ghRelease : repository.listReleases()) {
+                for (GHAsset ghAsset : ghRelease.listAssets()) {
+                    if (remainingNames.contains(ghAsset.getName())) {
+                        System.out.println("Found " + ghAsset.getName() + " in " + repository.getFullName() + " released on " + ghRelease.getCreatedAt());
+                        results.add(ghAsset);
+                        remainingNames.remove(ghAsset.getName());
+
+                        if (remainingNames.isEmpty()) return results;
+                    }
+                }
+            }
+
+            for (String name : remainingNames) System.out.println("Couldn't find: " + name);
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        return results;
     }
 
 }
