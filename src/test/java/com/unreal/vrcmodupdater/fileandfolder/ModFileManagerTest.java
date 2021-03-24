@@ -63,8 +63,7 @@ class ModFileManagerTest {
 
     @Test
     public void getMD5Hash_invalidFile() {
-        //Arrange
-        String expectedHash = "";
+
         File file = new File("src/test/resources/fileandfolder/ModFileManager/download/old_state_used_to_reset/invalid.dll");
         //Act
         Optional<String> result = modFileManager.getMD5Hash(file);

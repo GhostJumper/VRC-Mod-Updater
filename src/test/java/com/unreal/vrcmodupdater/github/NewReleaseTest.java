@@ -3,6 +3,8 @@ package com.unreal.vrcmodupdater.github;
 import org.junit.jupiter.api.Test;
 import org.kohsuke.github.GHAsset;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -93,7 +95,7 @@ class NewReleaseTest {
     }
 
     @Test
-    public void downloadNewestRelease_valid1() {
+    public void getNewestReleaseByName_valid1() {
         //Arrange
         String modName = "FavCat-merged.dll";
         String repoName = "knah/VRCMods";
@@ -108,7 +110,7 @@ class NewReleaseTest {
     }
 
     @Test
-    public void downloadNewestRelease_valid2() {
+    public void getNewestReleaseByName_valid2() {
         //Arrange
         String modName = "AvatarStatsShowAuthor.dll";
         String repoName = "HerpDerpinstine/AvatarStatsShowAuthor";
@@ -123,7 +125,7 @@ class NewReleaseTest {
     }
 
     @Test
-    public void downloadNewestRelease_invalid1() {
+    public void getNewestReleaseByName_invalid1() {
         //Arrange
         String modName = "AvatarStatsShowAuthor.dll";
         String repoName = "GhostJumper/VRC-Mod-Updater";
@@ -136,7 +138,7 @@ class NewReleaseTest {
     }
 
     @Test
-    public void downloadNewestRelease_invalid2() {
+    public void getNewestReleaseByName_invalid2() {
         //Arrange
         String modName = "AvatarStatsShowAuthor.dll";
         String repoName = "GhostJumper/Invalid-Repo-Name";
@@ -146,6 +148,40 @@ class NewReleaseTest {
 
         //Assert
         assertThat(ghAsset).isNotPresent();
+    }
+
+    @Test
+    public void getNewestReleasesByNames_allPresent() {
+        //Arrange
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("FavCat-merged.dll", "IKTweaks.dll", "AdvancedSafety.dll", "JoinNotifier.dll"));
+        String repoName = "knah/VRCMods";
+
+        //Act
+        ArrayList<GHAsset> results = newRelease.getNewestReleasesByNames(names, repoName);
+
+        //Assert
+        assertThat(results).isNotNull();
+        assertThat(results.size()).isEqualTo(4);
+
+        results.forEach(result -> {
+            assertThat(names.contains(result.getName())).isTrue();
+        });
+    }
+
+    @Test
+    public void getNewestReleasesByNames_notAllPresent() {
+        //Arrange
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("FavCat-merged.dll", "thisDoesntExist.dll"));
+        String repoName = "knah/VRCMods";
+
+        //Act
+        ArrayList<GHAsset> results = newRelease.getNewestReleasesByNames(names, repoName);
+
+        //Assert
+        assertThat(results).isNotNull();
+        assertThat(results.size()).isEqualTo(1);
+
+        assertThat(results.get(0).getName()).isEqualTo(names.get(0));
     }
 
 }
