@@ -1,3 +1,4 @@
 .idea
 target
 /*.iml
+src/test/resources/fileandfolder/ModFileManager/download/mod_folder/*.dll
