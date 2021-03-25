@@ -1,11 +1,10 @@
 package com.unreal.vrcmodupdater.fileandfolder;
 
+import com.unreal.vrcmodupdater.github.NewRelease;
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.kohsuke.github.GHAsset;
-import org.kohsuke.github.GHRelease;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +18,17 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class ModFileManagerTest {
 
     ModFileManager modFileManager = new ModFileManager();
+
+    static NewRelease newRelease = null;
+
+    @BeforeAll
+    public static void beforeAll() {
+        try {
+            newRelease = new NewRelease();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void getInstalledMods_modsPresent() {
@@ -87,7 +97,7 @@ class ModFileManagerTest {
 
         File file = new File(path + "/" + modName);
 
-        Optional<GHAsset> ghAsset = getAssetFromRepo(repoName, modName, releaseID);
+        Optional<GHAsset> ghAsset = newRelease.getAssetFromRepo(repoName, modName, releaseID);
 
         //Act
         Boolean result = modFileManager.downloadFileFromAsset(ghAsset.get(), path);
@@ -119,7 +129,7 @@ class ModFileManagerTest {
 
         File file = new File(path + "/" + modName);
 
-        Optional<GHAsset> ghAsset = getAssetFromRepo(repoName, modName, releaseID);
+        Optional<GHAsset> ghAsset = newRelease.getAssetFromRepo(repoName, modName, releaseID);
 
         //Act
         Boolean result = modFileManager.downloadFileFromAsset(ghAsset.get(), path);
@@ -163,8 +173,8 @@ class ModFileManagerTest {
         assertThat(modFileManager.getMD5Hash(file1).get()).isEqualTo(oldHash1);
         assertThat(modFileManager.getMD5Hash(file2).get()).isEqualTo(oldHash2);
 
-        Optional<GHAsset> ghAsset1 = getAssetFromRepo(repoName1, modName1, releaseID1);
-        Optional<GHAsset> ghAsset2 = getAssetFromRepo(repoName2, modName2, releaseID2);
+        Optional<GHAsset> ghAsset1 = newRelease.getAssetFromRepo(repoName1, modName1, releaseID1);
+        Optional<GHAsset> ghAsset2 = newRelease.getAssetFromRepo(repoName2, modName2, releaseID2);
 
         //Act
         Boolean result1 = modFileManager.downloadFileFromAsset(ghAsset1.get(), path);
@@ -180,25 +190,6 @@ class ModFileManagerTest {
         clearModsFolder();
 
 
-    }
-
-
-    private Optional<GHAsset> getAssetFromRepo(String repoName, String modName, Long releaseID) {
-
-        try {
-            GitHub gitHub = GitHub.connect();
-            GHRepository repository = gitHub.getRepository(repoName);
-            GHRelease release = repository.getRelease(releaseID);
-            GHAsset ghAsset = null;
-
-            for (GHAsset asset : release.listAssets()) {
-                if (asset.getName().equals(modName)) return Optional.of(asset);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return Optional.empty();
     }
 
 

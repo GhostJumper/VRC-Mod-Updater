@@ -1,9 +1,6 @@
 package com.unreal.vrcmodupdater.github;
 
-import org.kohsuke.github.GHAsset;
-import org.kohsuke.github.GHRelease;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
+import org.kohsuke.github.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,20 +9,25 @@ import java.util.Optional;
 
 public class NewRelease {
 
-    public Boolean isThisGitHub(String link) {
-        return link.startsWith("https://github.com/");
+    GitHub gitHub;
+
+    public NewRelease() throws IOException {
+        this.gitHub = GitHub.connectAnonymously();
+        System.out.println("Logged in as: Anonymous");
     }
 
-    public Boolean isGitHubReachable() {
+    public NewRelease(String o_auth_token) throws IOException {
+        this.gitHub = new GitHubBuilder().withOAuthToken(o_auth_token).build();
+        System.out.println("Logged in as: " + this.gitHub.getMyself().getName());
+    }
 
-        try {
-            GitHub.connect();
-        } catch (IOException e) {
-            return false;
-        }
+    public NewRelease(String username, String password) throws IOException {
+        this.gitHub = new GitHubBuilder().withPassword(username, password).build();
+        System.out.println("Logged in as: " + this.gitHub.getMyself().getName());
+    }
 
-        return true;
-
+    public Boolean isThisGitHub(String link) {
+        return link.startsWith("https://github.com/");
     }
 
     public String githubLinkToRepo(String link) {
@@ -36,8 +38,7 @@ public class NewRelease {
     public Boolean isThisValidGitHubRepo(String gitRepo) {
 
         try {
-            GitHub github = GitHub.connect();
-            github.getRepository(gitRepo);
+            this.gitHub.getRepository(gitRepo);
         } catch (IOException e) {
             return false;
         }
@@ -48,8 +49,7 @@ public class NewRelease {
     public Optional<GHAsset> getNewestReleaseByName(String modName, String repoName) {
 
         try {
-            GitHub gitHub = GitHub.connect();
-            GHRepository repository = gitHub.getRepository(repoName);
+            GHRepository repository = this.gitHub.getRepository(repoName);
 
             for (GHRelease ghRelease : repository.listReleases()) {
                 for (GHAsset ghAsset : ghRelease.listAssets()) {
@@ -73,8 +73,7 @@ public class NewRelease {
         ArrayList<GHAsset> results = new ArrayList<>();
 
         try {
-            GitHub gitHub = GitHub.connect();
-            GHRepository repository = gitHub.getRepository(repoName);
+            GHRepository repository = this.gitHub.getRepository(repoName);
 
             for (GHRelease ghRelease : repository.listReleases()) {
                 for (GHAsset ghAsset : ghRelease.listAssets()) {
@@ -96,6 +95,21 @@ public class NewRelease {
 
 
         return results;
+    }
+
+    public Optional<GHAsset> getAssetFromRepo(String repoName, String modName, Long releaseID) {
+        try {
+            GHRepository repository = this.gitHub.getRepository(repoName);
+            GHRelease release = repository.getRelease(releaseID);
+
+            for (GHAsset asset : release.listAssets()) {
+                if (asset.getName().equals(modName)) return Optional.of(asset);
+            }
+        } catch (Exception e) {
+            System.out.println("Error while getting: " + modName + " from Repo: " + repoName + " releaseID: " + releaseID + " Message: " + e.getMessage());
+        }
+
+        return Optional.empty();
     }
 
 }

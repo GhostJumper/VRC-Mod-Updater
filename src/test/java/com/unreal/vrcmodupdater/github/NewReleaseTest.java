@@ -1,8 +1,10 @@
 package com.unreal.vrcmodupdater.github;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.kohsuke.github.GHAsset;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -11,7 +13,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class NewReleaseTest {
 
-    NewRelease newRelease = new NewRelease();
+    static NewRelease newRelease = null;
+
+    @BeforeAll
+    public static void beforeAll() {
+        try {
+            newRelease = new NewRelease();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void isThisGitHub_notGit() {
@@ -43,11 +54,8 @@ class NewReleaseTest {
     @Test
     public void isGitHubReachable() {
 
-        //Act
-        Boolean result = newRelease.isGitHubReachable();
-
         //Assert
-        assertThat(result).isTrue();
+        assertThat(newRelease).isNotNull();
     }
 
 
@@ -182,6 +190,63 @@ class NewReleaseTest {
         assertThat(results.size()).isEqualTo(1);
 
         assertThat(results.get(0).getName()).isEqualTo(names.get(0));
+    }
+
+    @Test
+    public void getAssetFromRepo_valid() {
+        //Arrange
+        String modName = "IKTweaks.dll";
+        String repoName = "knah/VRCMods";
+        Long releaseID = 40254840l;
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getAssetFromRepo(repoName, modName, releaseID);
+
+        //Assert
+        assertThat(ghAsset).isPresent();
+        assertThat(ghAsset.get().getName()).isEqualTo(modName);
+    }
+
+    @Test
+    public void getAssetFromRepo_invalidReleaseID() {
+        //Arrange
+        String modName = "IKTweaks.dll";
+        String repoName = "knah/VRCMods";
+        Long releaseID = 4l;
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getAssetFromRepo(repoName, modName, releaseID);
+
+        //Assert
+        assertThat(ghAsset).isNotPresent();
+    }
+
+    @Test
+    public void getAssetFromRepo_invalidRepoName() {
+        //Arrange
+        String modName = "IKTweaks.dll";
+        String repoName = "knah/NonExistent";
+        Long releaseID = 40254840l;
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getAssetFromRepo(repoName, modName, releaseID);
+
+        //Assert
+        assertThat(ghAsset).isNotPresent();
+    }
+
+    @Test
+    public void getAssetFromRepo_invalidModName() {
+        //Arrange
+        String modName = "IKTweak.dll";
+        String repoName = "knah/VRCMods";
+        Long releaseID = 40254840l;
+
+        //Act
+        Optional<GHAsset> ghAsset = newRelease.getAssetFromRepo(repoName, modName, releaseID);
+
+        //Assert
+        assertThat(ghAsset).isNotPresent();
     }
 
 }
