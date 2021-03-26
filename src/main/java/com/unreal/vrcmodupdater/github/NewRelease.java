@@ -53,7 +53,7 @@ public class NewRelease {
 
             for (GHRelease ghRelease : repository.listReleases()) {
                 for (GHAsset ghAsset : ghRelease.listAssets()) {
-                    if (ghAsset.getName().equals(modName)) {
+                    if (ghAsset.getName().equals(modName + ".dll")) {
                         System.out.println("Found " + modName + " in " + repository.getFullName() + " released on " + ghRelease.getCreatedAt());
                         return Optional.of(ghAsset);
                     }
@@ -77,10 +77,10 @@ public class NewRelease {
 
             for (GHRelease ghRelease : repository.listReleases()) {
                 for (GHAsset ghAsset : ghRelease.listAssets()) {
-                    if (remainingNames.contains(ghAsset.getName())) {
+                    if (remainingNames.contains(ghAsset.getName().replace(".dll", ""))) {
                         System.out.println("Found " + ghAsset.getName() + " in " + repository.getFullName() + " released on " + ghRelease.getCreatedAt());
                         results.add(ghAsset);
-                        remainingNames.remove(ghAsset.getName());
+                        remainingNames.remove(ghAsset.getName().replace(".dll", ""));
 
                         if (remainingNames.isEmpty()) return results;
                     }

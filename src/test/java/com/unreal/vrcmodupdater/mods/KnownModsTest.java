@@ -54,7 +54,7 @@ class KnownModsTest {
         Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
 
         String modName = "JoinNotifier";
-        String expectedPath = "https://github.com/knah/VRCMods/";
+        String expectedPath = "knah/VRCMods/";
 
         //Act
         Optional<String> result = knownModsSpy.getRepoUrlFromName(modName);
@@ -75,7 +75,7 @@ class KnownModsTest {
         Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
 
         String modName = "Join;:'Notifier/\\;";
-        String expectedPath = "https://github.com/knah/VRCMods/";
+        String expectedPath = "knah/VRCMods/";
 
         //Act
         Optional<String> result = knownModsSpy.getRepoUrlFromName(modName);

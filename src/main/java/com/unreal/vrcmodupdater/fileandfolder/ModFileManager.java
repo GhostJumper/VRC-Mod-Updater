@@ -15,7 +15,7 @@ public class ModFileManager {
         if (folder.listFiles() != null)
             for (File file : folder.listFiles()) {
                 if (file.getName().endsWith(".dll"))
-                    result.add(file.getName());
+                    result.add(file.getName().replace(".dll", ""));
             }
 
         return (result.size() > 0 ? Optional.of(result) : Optional.empty());

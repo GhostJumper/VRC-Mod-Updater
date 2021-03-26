@@ -35,7 +35,7 @@ class ModFileManagerTest {
 
         //Arrange
         File modFolder = new File("src/test/resources/fileandfolder/ModFileManager/mods");
-        String[] expected = {"AvatarStatsShowAuthor.dll", "ComfyVRMenu.dll", "DownloadFix.dll", "emmVRCLoader.dll", "JoinNotifier.dll", "RememberMe.dll", "UserInfoExtentions.dll"};
+        String[] expected = {"AvatarStatsShowAuthor", "ComfyVRMenu", "DownloadFix", "emmVRCLoader", "JoinNotifier", "RememberMe", "UserInfoExtentions"};
 
         //Act
         Optional<ArrayList<String>> result = modFileManager.getAllModNames(modFolder);

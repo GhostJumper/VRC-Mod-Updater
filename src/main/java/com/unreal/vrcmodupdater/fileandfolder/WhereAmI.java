@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class WhereAmI {
 
     String getPath() {
-        return System.getProperty("user.dir");
+        return System.getProperty("user.dir").replace("\\", "/");
     }
 
     String getValidExecutionPath() throws WrongFolderException {

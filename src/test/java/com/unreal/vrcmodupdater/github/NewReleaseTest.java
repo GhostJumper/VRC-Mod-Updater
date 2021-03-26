@@ -105,7 +105,7 @@ class NewReleaseTest {
     @Test
     public void getNewestReleaseByName_valid1() {
         //Arrange
-        String modName = "FavCat-merged.dll";
+        String modName = "FavCat-merged";
         String repoName = "knah/VRCMods";
 
         //Act
@@ -114,13 +114,13 @@ class NewReleaseTest {
         //Assert
         assertThat(ghAsset).isPresent();
         assertThat(ghAsset.get()).isNotNull();
-        assertThat(ghAsset.get().getName()).isEqualTo(modName);
+        assertThat(ghAsset.get().getName().replace(".dll", "")).isEqualTo(modName);
     }
 
     @Test
     public void getNewestReleaseByName_valid2() {
         //Arrange
-        String modName = "AvatarStatsShowAuthor.dll";
+        String modName = "AvatarStatsShowAuthor";
         String repoName = "HerpDerpinstine/AvatarStatsShowAuthor";
 
         //Act
@@ -129,7 +129,7 @@ class NewReleaseTest {
         //Assert
         assertThat(ghAsset).isPresent();
         assertThat(ghAsset.get()).isNotNull();
-        assertThat(ghAsset.get().getName()).isEqualTo(modName);
+        assertThat(ghAsset.get().getName().replace(".dll", "")).isEqualTo(modName);
     }
 
     @Test
@@ -161,7 +161,7 @@ class NewReleaseTest {
     @Test
     public void getNewestReleasesByNames_allPresent() {
         //Arrange
-        ArrayList<String> names = new ArrayList<>(Arrays.asList("FavCat-merged.dll", "IKTweaks.dll", "AdvancedSafety.dll", "JoinNotifier.dll"));
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("FavCat-merged", "IKTweaks", "AdvancedSafety", "JoinNotifier"));
         String repoName = "knah/VRCMods";
 
         //Act
@@ -172,14 +172,14 @@ class NewReleaseTest {
         assertThat(results.size()).isEqualTo(4);
 
         results.forEach(result -> {
-            assertThat(names.contains(result.getName())).isTrue();
+            assertThat(names.contains(result.getName().replace(".dll", ""))).isTrue();
         });
     }
 
     @Test
     public void getNewestReleasesByNames_notAllPresent() {
         //Arrange
-        ArrayList<String> names = new ArrayList<>(Arrays.asList("FavCat-merged.dll", "thisDoesntExist.dll"));
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("FavCat-merged", "thisDoesntExist"));
         String repoName = "knah/VRCMods";
 
         //Act
@@ -189,7 +189,7 @@ class NewReleaseTest {
         assertThat(results).isNotNull();
         assertThat(results.size()).isEqualTo(1);
 
-        assertThat(results.get(0).getName()).isEqualTo(names.get(0));
+        assertThat(results.get(0).getName().replace(".dll", "")).isEqualTo(names.get(0));
     }
 
     @Test

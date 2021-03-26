@@ -21,11 +21,14 @@ public class KnownMods {
     }
 
     public Optional<String> getRepoUrlFromName(String modName) {
-
+        /*
         if (!isDBValid()) {
             System.out.println(getDBPath() + " is not a valid DB path");
             return Optional.empty();
         }
+
+         */
+
 
         String safeModName = modName.replaceAll("[^a-zA-Z0-9\\-]", "");
         if (!safeModName.equals(modName)) System.out.println("this mod contains special characters: " + modName);
