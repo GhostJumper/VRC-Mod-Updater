@@ -1,5 +1,5 @@
-ComfyVRMenu.dll 	old version: ComfyVRMenu-1.0.0      id: 30973570    MD5: 658021876fe2f6ceecba6b741bff0da7
-                    new version: ComfyVRMenu-1.0.1      id: 37263796    MD5: a07243e7d89bd9dbd597c588efafd846
-
 IKTweaks.dll 		old version: updates-2021-03-10     id: 39619077    MD5: 537a4af1ce66a9faa2830b39d04236fe
 					new version: updates-2021-03-23     id: 40254840    MD5: 50e45c44bc48d2562bb2aa3312ee756b
+
+FavCat-merged.dll   old version: updates-2021-03-23     id: 40254840    MD5: b0f422c5a71fb04cc862bcf72122df3e
+                    new version: updates-2021-04-04     id: 40919340    MD5: 7f2b2a198ce11d829a04b28af199ce67

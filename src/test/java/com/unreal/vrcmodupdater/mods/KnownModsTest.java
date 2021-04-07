@@ -1,10 +1,12 @@
 package com.unreal.vrcmodupdater.mods;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -12,46 +14,29 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class KnownModsTest {
 
     private final KnownMods knownMods = new KnownMods();
-    private final String validDBPath = "src/test/resources/mods/mods_test.sqlite";
-    private final String invalidDBPath = "src/test/resources/mods/mods_invalid.sqlite";
 
+    HashMap<String, String> modMap = new HashMap<>();
 
-    @Test
-    public void isDBValid_valid() {
-
-        //Arrange
-        KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
-
-        //Act
-        Boolean result = knownModsSpy.isDBValid();
-
-        //Assert
-        assertThat(result).isTrue();
-
+    @BeforeEach
+    public void beforeEach() {
+        modMap.put("FavCat-merged", "knah/VRCMods/");
+        modMap.put("JoinNotifier", "knah/VRCMods/");
+        modMap.put("EmojiPageButtons", "knah/VRCMods/");
+        modMap.put("IKTweaks", "knah/VRCMods/");
+        modMap.put("AdvancedSafety", "knah/VRCMods/");
+        modMap.put("DownloadFix", "gompocp/DownloadFix/");
+        modMap.put("ComfyVRMenu", "M-oons/VRChat-Mods/");
+        modMap.put("AntiUdonExploits", "M-oons/VRChat-Mods/");
+        modMap.put("AvatarStatsShowAuthor", "HerpDerpinstine/AvatarStatsShowAuthor/");
     }
 
-    @Test
-    public void isDBValid_invalid() {
-
-        //Arrange
-        KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.invalidDBPath).when(knownModsSpy).getDBPath();
-
-        //Act
-        Boolean result = knownModsSpy.isDBValid();
-
-        //Assert
-        assertThat(result).isFalse();
-
-    }
 
     @Test
     public void getRepoUrlFromName_validModName() {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
+        Mockito.doReturn(this.modMap).when(knownModsSpy).getModMap();
 
         String modName = "JoinNotifier";
         String expectedPath = "knah/VRCMods/";
@@ -72,7 +57,7 @@ class KnownModsTest {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
+        Mockito.doReturn(this.modMap).when(knownModsSpy).getModMap();
 
         String modName = "Join;:'Notifier/\\;";
         String expectedPath = "knah/VRCMods/";
@@ -93,7 +78,7 @@ class KnownModsTest {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
+        Mockito.doReturn(this.modMap).when(knownModsSpy).getModMap();
 
         String modName = "ThisDoesntExist";
 
@@ -107,27 +92,11 @@ class KnownModsTest {
     }
 
     @Test
-    public void getRepoUrlFromName_invalidDBPath() {
-
-        //Arrange
-        KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.invalidDBPath).when(knownModsSpy).getDBPath();
-
-        //Act
-        Optional<String> result = knownModsSpy.getRepoUrlFromName("");
-
-
-        //Assert
-        assertThat(result).isNotPresent();
-
-    }
-
-    @Test
     public void groupModsByRepo_sameRepo() {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
+        Mockito.doReturn(this.modMap).when(knownModsSpy).getModMap();
 
         ArrayList<String> modNames = new ArrayList<>(Arrays.asList("FavCat-merged", "JoinNotifier", "EmojiPageButtons", "IKTweaks"));
 
@@ -147,7 +116,7 @@ class KnownModsTest {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
+        Mockito.doReturn(this.modMap).when(knownModsSpy).getModMap();
 
         ArrayList<String> modNames = new ArrayList<>(Arrays.asList("FavCat-merged", "JoinNotifier", "EmojiPageButtons", "AvatarStatsShowAuthor"));
 
@@ -168,7 +137,7 @@ class KnownModsTest {
 
         //Arrange
         KnownMods knownModsSpy = Mockito.spy(knownMods);
-        Mockito.doReturn(this.validDBPath).when(knownModsSpy).getDBPath();
+        Mockito.doReturn(this.modMap).when(knownModsSpy).getModMap();
 
         ArrayList<String> modNames = new ArrayList<>(Arrays.asList("FavCat-merged", "JoinNotifier", "EmojiPageButtons", "ThisDoesntExist"));
 

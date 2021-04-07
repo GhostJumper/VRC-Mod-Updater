@@ -120,10 +120,10 @@ class ModFileManagerTest {
         //Arrange
         clearModsFolder();
 
-        String modName = "ComfyVRMenu.dll";
-        String repoName = "M-oons/VRChat-Mods";
-        Long releaseID = 37263796l;
-        String expectedHash = "a07243e7d89bd9dbd597c588efafd846";
+        String modName = "FavCat-merged.dll";
+        String repoName = "knah/VRCMods";
+        Long releaseID = 40919340l;
+        String expectedHash = "7f2b2a198ce11d829a04b28af199ce67";
 
         String path = "src/test/resources/fileandfolder/ModFileManager/download/mod_folder";
 
@@ -153,18 +153,18 @@ class ModFileManagerTest {
 
         String path = "src/test/resources/fileandfolder/ModFileManager/download/mod_folder";
 
-        String modName1 = "ComfyVRMenu.dll";
-        String repoName1 = "M-oons/VRChat-Mods";
-        Long releaseID1 = 37263796l;
+        String modName1 = "FavCat-merged.dll";
+        String repoName1 = "knah/VRCMods";
+        Long releaseID1 = 40919340l;
 
         String modName2 = "IKTweaks.dll";
         String repoName2 = "knah/VRCMods";
         Long releaseID2 = 40254840l;
 
-        String oldHash1 = "658021876fe2f6ceecba6b741bff0da7";
+        String oldHash1 = "b0f422c5a71fb04cc862bcf72122df3e";
         String oldHash2 = "537a4af1ce66a9faa2830b39d04236fe";
 
-        String newHash1 = "a07243e7d89bd9dbd597c588efafd846";
+        String newHash1 = "7f2b2a198ce11d829a04b28af199ce67";
         String newHash2 = "50e45c44bc48d2562bb2aa3312ee756b";
 
         File file1 = new File(path + "/" + modName1);
@@ -195,12 +195,12 @@ class ModFileManagerTest {
 
     private void copyTestModsInModFolder() {
         File[] originalFiles = {
-                new File("src/test/resources/fileandfolder/ModFileManager/download/old_state_used_to_reset/ComfyVRMenu.dll"),
+                new File("src/test/resources/fileandfolder/ModFileManager/download/old_state_used_to_reset/FavCat-merged.dll"),
                 new File("src/test/resources/fileandfolder/ModFileManager/download/old_state_used_to_reset/IKTweaks.dll")
         };
 
         File[] destinationFiles = {
-                new File("src/test/resources/fileandfolder/ModFileManager/download/mod_folder/ComfyVRMenu.dll"),
+                new File("src/test/resources/fileandfolder/ModFileManager/download/mod_folder/FavCat-merged.dll"),
                 new File("src/test/resources/fileandfolder/ModFileManager/download/mod_folder/IKTweaks.dll")
         };
 

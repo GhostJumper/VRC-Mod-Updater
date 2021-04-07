@@ -120,8 +120,8 @@ class NewReleaseTest {
     @Test
     public void getNewestReleaseByName_valid2() {
         //Arrange
-        String modName = "AvatarStatsShowAuthor";
-        String repoName = "HerpDerpinstine/AvatarStatsShowAuthor";
+        String modName = "UserInfoExtentions";
+        String repoName = "loukylor/VRC-Mods";
 
         //Act
         Optional<GHAsset> ghAsset = newRelease.getNewestReleaseByName(modName, repoName);
